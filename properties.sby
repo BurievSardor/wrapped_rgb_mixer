@@ -1,0 +1,17 @@
+[options]
+mode prove
+
+[engines]
+smtbmc
+
+[script]
+read -formal wrapper.v rgb_mixer.v debounce.v pwm.v encoder.v
+prep -top wrapped_rgb_mixer
+
+[files]
+wrapper.v
+properties.v
+rgb_mixer/src/rgb_mixer.v
+rgb_mixer/src/debounce.v
+rgb_mixer/src/pwm.v
+rgb_mixer/src/encoder.v
