@@ -55,12 +55,12 @@ async def test_all(dut):
     cocotb.fork(clock.start())
 
     # wait for the reset signal - time out if necessary - should happen around 165us
-    await with_timeout(RisingEdge(dut.uut.mprj.rgb_mixer.reset), 180, 'us')
-    await FallingEdge(dut.uut.mprj.rgb_mixer.reset)
+    await with_timeout(RisingEdge(dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.reset), 180, 'us')
+    await FallingEdge(dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.reset)
 
-    assert dut.uut.mprj.rgb_mixer.enc0 == 0
-    assert dut.uut.mprj.rgb_mixer.enc1 == 0
-    assert dut.uut.mprj.rgb_mixer.enc2 == 0
+    assert dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.enc0 == 0
+    assert dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.enc1 == 0
+    assert dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.enc2 == 0
 
     # pwm should all be low at start
     assert dut.pwm0_out == 0
@@ -69,9 +69,9 @@ async def test_all(dut):
 
     # do 3 ramps for each encoder 
     max_count = 255
-    await run_encoder_test(encoder0, dut.uut.mprj.rgb_mixer.enc0, max_count)
-    await run_encoder_test(encoder1, dut.uut.mprj.rgb_mixer.enc1, max_count)
-    await run_encoder_test(encoder2, dut.uut.mprj.rgb_mixer.enc2, max_count)
+    await run_encoder_test(encoder0, dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.enc0, max_count)
+    await run_encoder_test(encoder1, dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.enc1, max_count)
+    await run_encoder_test(encoder2, dut.uut.mprj.wrapped_rgb_mixer.rgb_mixer.enc2, max_count)
 
     # sync to pwm
     await RisingEdge(dut.pwm0_out)
